@@ -1,6 +1,6 @@
-<h1 align="center">ExpressJS - Badag RESTfull API</h1>
+<h1 align="center">ExpressJS - Nongky RESTfull API</h1>
 
-A system website app for company to find the besst talent. And a system website app for talent to hired by company. [More about Express](https://en.wikipedia.org/wiki/Express.js)
+#A system website app for... [More about Express](https://en.wikipedia.org/wiki/Express.js)
 
 ## Built With
 
@@ -109,13 +109,10 @@ DB_IP=127.0.0.1 // IP
 
 **Documentation API**
 
-https://documenter.getpostman.com/view/12330794/TVKBYdwr
+#https://documenter.getpostman.com/view/12330794/TVKBYdwr
 
 ## License
 
-© [Arqi Alfaritsi](https://github.com/alfaritsi21/)
 © [Arif Rahman](https://github.com/Glitchfer)
-© [Bagas Afrizal](https://github.com/bagasafrz7)
-© [Dimas Prayoga](https://github.com/careerdimasprayoga)
-© [Galuh Prahadi](https://github.com/galuhprahadi96)
+
 # Nongky_Backend
