@@ -8,6 +8,7 @@ const {
   getUserById,
   patchUser,
   patchLogout,
+  resetPasswordUser,
 } = require("../model/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -33,7 +34,6 @@ module.exports = {
             user_name,
             user_phone,
             user_address,
-            user_login_status,
             user_account_status,
           } = checkDataUsers[0];
           let payload = {
@@ -42,7 +42,6 @@ module.exports = {
             user_name,
             user_phone,
             user_address,
-            user_login_status,
             user_account_status,
           };
           const token = jwt.sign(payload, "RAHASIA", { expiresIn: "1h" });
@@ -57,6 +56,10 @@ module.exports = {
             login: new Date(),
           };
           const result = await postLogin(loginInfo);
+          const setData2 = {
+            user_login_status: 1,
+          };
+          const result2 = await patchUser(setData2, checkDataUsers[0].user_id);
           return helper.response(
             response,
             200,
@@ -125,7 +128,7 @@ module.exports = {
             return helper.response(
               response,
               400,
-              `Same name detected, please use other name`
+              `Phone number already registered`
             );
           } else {
             const checkDataUsers = await checkUser(user_email);
@@ -204,12 +207,22 @@ module.exports = {
     const setData = {
       logout: new Date(),
     };
+    const setData2 = {
+      user_login_status: 0,
+    };
     const checkId = await getUserById(user_id);
     console.log(checkId);
     try {
       if (checkId.length > 0) {
         const result = await patchLogout(setData, activity_id);
-        return helper.response(response, 201, "Logout Success", result);
+        const result2 = await patchUser(setData2, user_id);
+        return helper.response(
+          response,
+          201,
+          "Logout Success",
+          result,
+          result2
+        );
       } else {
         return helper.response(
           response,
@@ -286,6 +299,34 @@ module.exports = {
           404,
           `User By Phone: ${phone} Not Found`
         );
+      }
+    } catch (error) {
+      return helper.response(response, 400, "Bad Request", error);
+    }
+  },
+  resetPassword: async (request, response) => {
+    const { email } = request.params;
+    const { user_password, re_password } = request.body;
+
+    const salt = bcrypt.genSaltSync(10);
+    const password_encrypt = bcrypt.hashSync(user_password, salt);
+
+    const setData = {
+      user_password: password_encrypt,
+    };
+    try {
+      if (user_password.length < 8) {
+        return helper.response(
+          response,
+          400,
+          "Password must up to 8 character"
+        );
+      } else if (user_password != re_password) {
+        return helper.response(response, 400, "Password doesn't match");
+      } else {
+        const result = await resetPasswordUser(setData, email);
+
+        return helper.response(response, 201, "New Password Added", result);
       }
     } catch (error) {
       return helper.response(response, 400, "Bad Request", error);

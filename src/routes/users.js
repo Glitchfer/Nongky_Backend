@@ -8,6 +8,7 @@ const {
   registerUser,
   patchLogout,
   activationUser,
+  resetPassword,
 } = require("../controller/users");
 const { authorization } = require("../middleware/auth");
 const {
@@ -33,4 +34,5 @@ router.patch(
   clearDataUserRedis,
   activationUser
 );
+router.patch("/password/:email", resetPassword);
 module.exports = router;
