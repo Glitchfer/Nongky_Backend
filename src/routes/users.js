@@ -10,15 +10,15 @@ const {
   activationUser,
   resetPassword,
 } = require("../controller/users");
-const { authorization } = require("../middleware/auth");
+const { authorization } = require("../middleware/Auth");
 const {
   getUserByIdRedis,
   getUserRedis,
   getUserByPhoneRedis,
   getUserByNameRedis,
   clearDataUserRedis,
-} = require("../middleware/redis");
-const uploadFilter = require("../middleware/multer");
+} = require("../middleware/Redis");
+const uploadFilter = require("../middleware/Multer");
 
 router.get("/", authorization, getUserRedis, getUser);
 router.get("/:id", authorization, getUserByIdRedis, getUserById);
