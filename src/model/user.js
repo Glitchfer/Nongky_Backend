@@ -52,7 +52,7 @@ module.exports = {
   checkUserName: (name) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        "SELECT user_id, user_email, user_password, user_name, user_phone, user_login_status, user_account_status FROM user WHERE user_name = ?",
+        `SELECT user_id, user_email, user_name, user_phone, user_image, user_login_status, user_account_status FROM user WHERE user_name LIKE "%"?"%"`,
         name,
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error));
@@ -63,7 +63,7 @@ module.exports = {
   checkUserPhone: (phone) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        "SELECT user_id, user_email, user_password, user_name, user_phone, user_login_status, user_account_status FROM user WHERE user_phone = ?",
+        "SELECT user_id, user_email, user_name, user_phone, user_image, user_login_status, user_account_status FROM user WHERE user_phone = ?",
         phone,
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error));
@@ -73,9 +73,12 @@ module.exports = {
   },
   getUser: () => {
     return new Promise((resolve, reject) => {
-      connection.query(`SELECT * FROM users`, (error, result) => {
-        !error ? resolve(result) : reject(new Error(error));
-      });
+      connection.query(
+        "SELECT user_id, user_email, user_name, user_phone, user_image, user_address, user_bio, user_login_status, user_account_status FROM user",
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error));
+        }
+      );
     });
   },
   getUserById: (id) => {
@@ -83,28 +86,6 @@ module.exports = {
       connection.query(
         "SELECT * FROM user WHERE user_id = ?",
         id,
-        (error, result) => {
-          !error ? resolve(result) : reject(new Error(error));
-        }
-      );
-    });
-  },
-  getUserByName: (name) => {
-    return new Promise((resolve, reject) => {
-      connection.query(
-        `SELECT * FROM user WHERE user_name LIKE "%"?"%"`,
-        name,
-        (error, result) => {
-          !error ? resolve(result) : reject(new Error(error));
-        }
-      );
-    });
-  },
-  getUserByName: (phone) => {
-    return new Promise((resolve, reject) => {
-      connection.query(
-        `SELECT * FROM user WHERE user_name LIKE "%"?"%"`,
-        phone,
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error));
         }

@@ -4,10 +4,15 @@ const helper = require("../helper/index");
 
 module.exports = {
   getUserRedis: (request, response, next) => {
-    client.get(`userbyid:${id}`, (error, result) => {
+    client.get("userall", (error, result) => {
       if (!error && result != null) {
         console.log(`Data user tersedia di dalam redis`);
-        return helper.response(response, 200, "Get Success", newResult.result);
+        return helper.response(
+          response,
+          200,
+          "Get Success",
+          JSON.parse(result)
+        );
       } else {
         console.log(`Data user belum tersedia di dalam redis`);
         next();
@@ -33,9 +38,12 @@ module.exports = {
   },
   getUserByNameRedis: (request, response, next) => {
     const { name } = request.params;
-    client.get(`userbyname:${name}`, (error, result) => {
+    const { user_name } = request.body;
+    client.get(`userbyname:${user_name}`, (error, result) => {
       if (!error && result != null) {
-        console.log(`Data dengan user name: ${name} tersedia di dalam redis`);
+        console.log(
+          `Data dengan user name: ${user_name} tersedia di dalam redis`
+        );
         return helper.response(
           response,
           200,
@@ -44,7 +52,29 @@ module.exports = {
         );
       } else {
         console.log(
-          `Data dengan user name: ${name} belum tersedia di dalam redis`
+          `Data dengan user name: ${user_name} belum tersedia di dalam redis`
+        );
+        next();
+      }
+    });
+  },
+  getUserByEmailRedis: (request, response, next) => {
+    const { email } = request.params;
+    const { user_email } = request.body;
+    client.get(`userbyemail:${user_email}`, (error, result) => {
+      if (!error && result != null) {
+        console.log(
+          `Data dengan user email: ${user_email} tersedia di dalam redis`
+        );
+        return helper.response(
+          response,
+          200,
+          "Get User By Email Success",
+          JSON.parse(result)
+        );
+      } else {
+        console.log(
+          `Data dengan user email: ${user_email} belum tersedia di dalam redis`
         );
         next();
       }
@@ -52,9 +82,12 @@ module.exports = {
   },
   getUserByPhoneRedis: (request, response, next) => {
     const { phone } = request.params;
-    client.get(`userbyphone:${name}`, (error, result) => {
+    const { user_phone } = request.body;
+    client.get(`userbyphone:${user_phone}`, (error, result) => {
       if (!error && result != null) {
-        console.log(`Data dengan user phone: ${phone} tersedia di dalam redis`);
+        console.log(
+          `Data dengan user phone: ${user_phone} tersedia di dalam redis`
+        );
         return helper.response(
           response,
           200,
@@ -63,7 +96,7 @@ module.exports = {
         );
       } else {
         console.log(
-          `Data dengan user phone: ${phone} belum tersedia di dalam redis`
+          `Data dengan user phone: ${user_phone} belum tersedia di dalam redis`
         );
         next();
       }

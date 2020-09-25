@@ -99,6 +99,7 @@ module.exports = {
       user_account_status: 0,
       user_created: new Date(),
     };
+    console.log(setData);
     try {
       const checkPassword = bcrypt.compareSync(
         user_password,
@@ -237,8 +238,8 @@ module.exports = {
   },
   getUser: async (request, response) => {
     try {
-      client.setex(`user`, 120, JSON.stringify(result));
       const result = await getUser();
+      client.setex("userall", 120, JSON.stringify(result));
       return helper.response(response, 200, "Get Success", result);
     } catch (error) {
       return helper.response(response, 400, "Bad Request", error);
@@ -261,9 +262,10 @@ module.exports = {
   getUserByName: async (request, response) => {
     try {
       const { name } = request.params;
-      const result = await getUserByName(name);
+      const { user_name } = request.body;
+      const result = await checkUserName(user_name);
       if (result.length > 0) {
-        client.setex(`userbyname:${name}`, 120, JSON.stringify(result));
+        client.setex(`userbyname:${user_name}`, 120, JSON.stringify(result));
         return helper.response(
           response,
           200,
@@ -274,7 +276,31 @@ module.exports = {
         return helper.response(
           response,
           404,
-          `User By Name: ${name} Not Found`
+          `User By Name: ${user_name} Not Found`
+        );
+      }
+    } catch (error) {
+      return helper.response(response, 400, "Bad Request", error);
+    }
+  },
+  getUserByEmail: async (request, response) => {
+    try {
+      const { email } = request.params;
+      const { user_email } = request.body;
+      const result = await checkUser(user_email);
+      if (result.length > 0) {
+        client.setex(`userbyemail:${user_email}`, 120, JSON.stringify(result));
+        return helper.response(
+          response,
+          200,
+          "Get User By Email Success",
+          result
+        );
+      } else {
+        return helper.response(
+          response,
+          404,
+          `User By Email: ${user_email} Not Found`
         );
       }
     } catch (error) {
@@ -284,9 +310,10 @@ module.exports = {
   getUserByPhone: async (request, response) => {
     try {
       const { phone } = request.params;
-      const result = await getUserByPhone(phone);
+      const { user_phone } = request.body;
+      const result = await checkUserPhone(user_phone);
       if (result.length > 0) {
-        client.setex(`userbyphone:${phone}`, 120, JSON.stringify(result));
+        client.setex(`userbyphone:${user_phone}`, 120, JSON.stringify(result));
         return helper.response(
           response,
           200,
@@ -297,7 +324,7 @@ module.exports = {
         return helper.response(
           response,
           404,
-          `User By Phone: ${phone} Not Found`
+          `User By Phone: ${user_phone} Not Found`
         );
       }
     } catch (error) {
