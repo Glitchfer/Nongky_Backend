@@ -33,7 +33,11 @@ module.exports = {
             user_email,
             user_name,
             user_phone,
+            user_image,
             user_address,
+            user_lat,
+            user_lng,
+            user_bio,
             user_account_status,
           } = checkDataUsers[0];
           let payload = {
@@ -41,7 +45,11 @@ module.exports = {
             user_email,
             user_name,
             user_phone,
+            user_image,
             user_address,
+            user_lat,
+            user_lng,
+            user_bio,
             user_account_status,
           };
           const token = jwt.sign(payload, "RAHASIA", { expiresIn: "1h" });
