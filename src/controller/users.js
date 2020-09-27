@@ -52,7 +52,7 @@ module.exports = {
             user_bio,
             user_account_status,
           };
-          const token = jwt.sign(payload, "RAHASIA", { expiresIn: "1h" });
+          const token = jwt.sign(payload, "RAHASIA", { expiresIn: "5h" });
           payload = { ...payload, token };
           console.log(payload);
 
