@@ -30,8 +30,6 @@ io.on("connection", (socket) => {
   socket.on("privateRoom", (data) => {
     socket.join(data.room_id);
     io.to(data.room_id).emit("chat", data);
-
-    console.log(data.message);
   });
 
   socket.on("typing", (data) => {
