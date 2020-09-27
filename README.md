@@ -40,76 +40,80 @@ DB_IP=127.0.0.1 // IP
 
 ## End Point
 
-**1. Auth**
+**1. User**
 
-- `/register/recruiter`(POST register company)
+- `/users`(GET all user database)
+- `/users/:id`(GET user data by id)
 
-  - `{ "name": "Arqi", "email": "arqi@gmail.com", "phone": 01236163, "password": 12345678, "re_password": 12345678, "company_name": "arqicorp", "position": "bandung" }`
+- `/users/name`(POST find user by username)
 
-- `/register`(POST register worker)
+  - body: `{ "user_name": "rizkia"}`
 
-  - `{ "name": "Arqi", "email": "arqi@gmail.com", "phone": 01236163, "password": 12345678, "re_password": 12345678 }`
+- `/users/email`(POST find user by email)
 
-- `/register/forgot_password`(PATCH Forgot Password)
+  - body: `{ "user_email": "rizkia@gmail.com"}`
 
-  - `{ "email": "arqi@gmail.com" }`
+- `/users/phone`(POST find user by phone number)
 
-- `/users/login-user`(GET Login worker)
+  - body: `{ "user_phone": "08977286414"}`
 
-- `{ "email": "arqi@gmail.com", "user_password": 12345678 }`
+- `/users/login`(POST login data)
 
-**2. Home**
+  - body: `{ "user_email": "rey1234@gmail.com", "user_password": adaakudisini}`
 
-- `/home?limit=2&page=1&sort=name&search=react`(GET Home)
+- `/users/login`(POST register data)
 
-  - params: `{ "limit": 2, "page": 1, "sort": "name", "search": "react" }`
-  - body: `{ "limit": 2, "page": 1, "sort": "asc", "role_id": 2 }`
+  - body:`{ "user_name_": "rey", "user_email": "rey1234@gmail.com", "user_phone": "08977286645", "user_password": adaakudisini}`
+
+- `/users/?activity_id=86&user_id=6`(PATCH logout)
+
+  - params: `{ "activity_id": 86, "user_id": 6}`
+
+- `/users/password/:email`(PATCH reset password)
+  - body: `{ "user_password": adaakudisini, "re_password": adaakudisini}`
+
+**2. friend**
+
+- `/friend/:id`(GET friend list)
+
+- `/friend/invitation`(POST get invitation request)
+
+  - body: `{ "user_id": 1 }`
+
+- `/friend/add`(POST new friend)
+
+  - body: `{ "user_id": 1, "friend_id": 1 }`
+
+- `/friend/add`(PATCH accept invitation request)
+  - body: `{ "user_id": 1, "sender_id": 1, "response_status": 1 }`
+  - response_status: `{0 = decline, 1 = accept, 2 = pending}`
 
 **3. Chat**
 
-- `/chat/worker`(GET Room Chat Worker)
+router.patch("/", patchChatList);
 
-  - `{ "user_id": 3 }`
+- `/chat/:id`(GET chat list)`
 
-- `/chat/company`(GET Room Chat Company)
+- `/chat_history`(POST contact friend to chat list)
 
-  - `{ "company_id": 2 }`
+  - body: `{ "sender_id": 6, "friend_id": 13}`
 
-- `/chat`(GET Chatting)
+- `/chat_history`(POST get chat room via contact)
 
-  - `{ "company_id": 2, "roomchat_id": 9974 }`
+  - body: `{ "user_id": 6, "friend_id": 1}`
 
-- `/chat`(POST Chat)
+- `/room`(POST get chat room via main screen)
 
-  - `{ "roomchat_id": 9974, "sender": 3, "receive": 1, "message": "Saya sangat tertarik dengan project tersebut.", "role_id": 1 }`
+  - body: `{ "room_id": 8844}`
 
-**4. Navbar**
+- `/chat`(PATCH chat list)
 
-- `/navbar/worker`(GET Notification Worker)
-
-  - `{ "id_user": 3 }`
-
-- `/navbar/recruter`(GET Notification Company)
-
-  - `{ "id_user": 1 }`
-
-- `/navbar/read_notif_worker`(PATCH Read Notification Worker)
-
-  - `{ "id_notif": 2, "id_user": 3 }`
-
-- `/navbar/read_notif_recruter`(PATCH Read Notification Company)
-
-  - `{ "id_notif": 2, "id_user": 2 }`
-
-**4. Hiring**
-
-- `/hiring`(POST Hiring)
-
-  - `{ "user_id": 3, "company_id": 1, "jobType_id": 1, "name": "HR. Google Tirtra", "phone": 021999901, "message": "Halo Dimas, Kami punya project tentang penyimpanan data, apakah anda tertarik dengan project tersebut ? Anda bisa menghubungi kontak diatas.", "email": "hrgoogle@gmail.com" }`
+  - body: `{ "user_id": 6, "sender_id": 13, "response_status": 1}`
+  - response_status: `{0 = unread, 1 = read, 2 = pending}`
 
 **Documentation API**
 
-#https://documenter.getpostman.com/view/12330794/TVKBYdwr
+#https://documenter.getpostman.com/view/12208824/TVKHUb9d
 
 ## License
 
