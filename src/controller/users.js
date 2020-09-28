@@ -1,6 +1,7 @@
 const {
   postLogin,
   registerUser,
+  registerUser2,
   checkUser,
   checkUserName,
   checkUserPhone,
@@ -39,6 +40,7 @@ module.exports = {
             user_lng,
             user_bio,
             user_account_status,
+            user_full_name,
           } = checkDataUsers[0];
           let payload = {
             user_id,
@@ -51,6 +53,7 @@ module.exports = {
             user_lng,
             user_bio,
             user_account_status,
+            user_full_name,
           };
           const token = jwt.sign(payload, "RAHASIA", { expiresIn: "5h" });
           payload = { ...payload, token };
@@ -143,6 +146,7 @@ module.exports = {
             const checkDataUsers = await checkUser(user_email);
             if (checkDataUsers.length < 1) {
               const result = await registerUser(setData);
+              const result2 = await registerUser2(setData);
               return helper.response(response, 200, "Register Success", result);
             } else {
               return helper.response(response, 400, `Email already registered`);

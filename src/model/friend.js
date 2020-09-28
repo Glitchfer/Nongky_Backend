@@ -4,7 +4,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       connection.query(
         // "SELECT * FROM friend WHERE response_status = 1 && user_id = ?",
-        `SELECT friend.id, friend.user_id, friend.friend_id, friend.response_status, user.user_email, user.user_name, user.user_phone, user.user_image, user.user_address, user.user_lat, user.user_lng, user.user_bio, user.user_login_status, user.user_type FROM friend JOIN user ON friend.friend_id = user.user_id WHERE response_status = 1 && friend.user_id = ?`,
+        `SELECT friend.id, friend.user_id, friend.friend_id, friend.response_status, user.user_email, user.user_name, user.user_phone, user.user_image, user.user_address, user.user_lat, user.user_lng, user.user_bio, user.user_login_status, user.user_type, user.user_full_name FROM friend JOIN user ON friend.friend_id = user.user_id WHERE response_status = 1 && friend.user_id = ?`,
         [id],
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error));
@@ -16,7 +16,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       connection.query(
         // "SELECT * FROM friend WHERE response_status = 1 && user_id = ?",
-        `SELECT friend.id, friend.user_id, friend.friend_id, friend.response_status, user.user_email, user.user_name, user.user_phone, user.user_image, user.user_address, user.user_lat, user.user_lng, user.user_bio, user.user_login_status, user.user_type FROM friend JOIN user ON friend.friend_id = user.user_id WHERE response_status = 1 && friend.user_id = ? && friend.friend_id = ?`,
+        `SELECT friend.id, friend.user_id, friend.friend_id, friend.response_status, user.user_email, user.user_name, user.user_phone, user.user_image, user.user_address, user.user_lat, user.user_lng, user.user_bio, user.user_login_status, user.user_type, user.user_full_name FROM friend JOIN user ON friend.friend_id = user.user_id WHERE response_status = 1 && friend.user_id = ? && friend.friend_id = ?`,
         [id, sender],
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error));
@@ -27,7 +27,7 @@ module.exports = {
   checkInvitationStatus: (id, friend_id) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        `SELECT friend.id, friend.user_id, friend.friend_id, friend.response_status, user.user_email, user.user_name, user.user_phone, user.user_image, user.user_address, user.user_lat, user.user_lng, user.user_bio, user.user_login_status, user.user_type FROM friend JOIN user ON friend.friend_id = user.user_id WHERE response_status = 2 && friend.user_id = ? && friend.friend_id = ?`,
+        `SELECT friend.id, friend.user_id, friend.friend_id, friend.response_status, user.user_email, user.user_name, user.user_phone, user.user_image, user.user_address, user.user_lat, user.user_lng, user.user_bio, user.user_login_status, user.user_type, user.user_full_name FROM friend JOIN user ON friend.friend_id = user.user_id WHERE response_status = 2 && friend.user_id = ? && friend.friend_id = ?`,
         [id, friend_id],
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error));
@@ -39,7 +39,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       connection.query(
         // `SELECT * FROM invite WHERE user_id = ? && invite_status = 0`
-        `SELECT invite.invite_id, invite.user_id, invite.sender_id, invite.invite_status, invite.response_status, user.user_email, user.user_name, user.user_phone, user.user_image, user.user_address, user.user_lat, user.user_lng, user.user_bio, user.user_login_status, user.user_type FROM invite JOIN user ON invite.sender_id = user.user_id WHERE invite.user_id = ? && invite.invite_status = 0`,
+        `SELECT invite.invite_id, invite.user_id, invite.sender_id, invite.invite_status, invite.response_status, user.user_email, user.user_name, user.user_phone, user.user_image, user.user_address, user.user_lat, user.user_lng, user.user_bio, user.user_login_status, user.user_type, user.user_full_name FROM invite JOIN user ON invite.sender_id = user.user_id WHERE invite.user_id = ? && invite.invite_status = 0`,
         user_id,
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error));

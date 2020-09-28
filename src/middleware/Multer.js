@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
 let upload = multer({
   storage: storage,
   limits: { fileSize: 1 * 1024 * 1024 },
-}).single("img");
+}).single("image");
 const uploadFilter = (request, response, next) => {
   upload(request, response, function (error) {
     if (error instanceof multer.MulterError) {

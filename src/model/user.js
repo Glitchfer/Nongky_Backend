@@ -38,10 +38,26 @@ module.exports = {
       });
     });
   },
+  registerUser2: (setData) => {
+    return new Promise((resolve, reject) => {
+      connection.query("INSERT INTO user2 SET ?", setData, (error, result) => {
+        if (!error) {
+          const newResult = {
+            id: result.insertId,
+            ...setData,
+          };
+          delete newResult.user_password;
+          resolve(newResult);
+        } else {
+          reject(new Error(error));
+        }
+      });
+    });
+  },
   checkUser: (email) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        "SELECT user_id, user_email, user_password, user_name, user_phone, user_image, user_address, user_bio, user_login_status, user_account_status FROM user WHERE user_email = ?",
+        "SELECT user_id, user_email, user_password, user_name, user_phone, user_image, user_address, user_lat, user_lng, user_bio, user_login_status, user_account_status, user_full_name FROM user WHERE user_email = ?",
         email,
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error));
@@ -52,7 +68,7 @@ module.exports = {
   checkUserName: (name) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        `SELECT user_id, user_email, user_name, user_phone, user_image, user_login_status, user_account_status FROM user WHERE user_name LIKE "%"?"%"`,
+        `SELECT user_id, user_email, user_name, user_phone, user_image, user_login_status, user_account_status, user_full_name FROM user WHERE user_name LIKE "%"?"%"`,
         name,
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error));
@@ -63,7 +79,7 @@ module.exports = {
   checkUserPhone: (phone) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        "SELECT user_id, user_email, user_name, user_phone, user_image, user_login_status, user_account_status FROM user WHERE user_phone = ?",
+        "SELECT user_id, user_email, user_name, user_phone, user_image, user_login_status, user_account_status, user_full_name FROM user WHERE user_phone = ?",
         phone,
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error));
@@ -74,7 +90,7 @@ module.exports = {
   getUser: () => {
     return new Promise((resolve, reject) => {
       connection.query(
-        "SELECT user_id, user_email, user_name, user_phone, user_image, user_address, user_bio, user_login_status, user_account_status FROM user",
+        "SELECT user_id, user_email, user_name, user_phone, user_image, user_address, user_bio, user_login_status, user_account_status, user_full_name FROM user",
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error));
         }
