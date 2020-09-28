@@ -90,8 +90,6 @@ DB_IP=127.0.0.1 // IP
 
 **3. Chat**
 
-router.patch("/", patchChatList);
-
 - `/chat/:id`(GET chat list)`
 
 - `/chat_history`(POST contact friend to chat list)
@@ -110,6 +108,12 @@ router.patch("/", patchChatList);
 
   - body: `{ "user_id": 6, "sender_id": 13, "response_status": 1}`
   - response_status: `{0 = unread, 1 = read, 2 = pending}`
+
+  **4. Profile**
+
+- `/profile/:id`(PATCH user profile)
+
+  - body: `{ "user_full_name": saprolio, "user_name": saprl123, "user_phone": 08977271213, "user_bio": fresh graduate, "image": ../file.name}`
 
 **Documentation API**
 
