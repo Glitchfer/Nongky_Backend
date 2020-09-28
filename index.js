@@ -27,8 +27,12 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("chat", data);
   });
 
-  socket.on("privateRoom", (data) => {
+  socket.on("setRoom", (data) => {
     socket.join(data.room_id);
+  });
+
+  socket.on("privateRoom", (data) => {
+    // socket.join(data.room_id);
     io.to(data.room_id).emit("chat", data);
   });
 
