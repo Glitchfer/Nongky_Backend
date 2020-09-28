@@ -15,21 +15,15 @@ const io = socket(server);
 io.on("connection", (socket) => {
   console.log("socket.io sudah terhubung..");
 
-  socket.on("global", (data) => {
-    io.emit("chat", data);
-  });
-
-  socket.on("private", (data) => {
-    socket.emit("chat", data);
-  });
-
-  socket.on("broadcast", (data) => {
-    socket.broadcast.emit("chat", data);
-  });
-
   socket.on("setRoom", (data) => {
+    // socket.room_id = data.room_id;
     socket.join(data.room_id);
   });
+
+  // socket.on("changeRoom", (data) => {
+  //   socket.leave(socket.room_id);
+  //   socket.join(data.newroom);
+  // });
 
   socket.on("privateRoom", (data) => {
     // socket.join(data.room_id);
@@ -37,8 +31,8 @@ io.on("connection", (socket) => {
   });
 
   socket.on("typing", (data) => {
-    socket.join(data.room);
     socket.broadcast.to(data.room).emit("typingMessage", data);
+    socket.join(data.room);
   });
 });
 
