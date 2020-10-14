@@ -2,8 +2,12 @@ const multer = require("multer");
 const helper = require("../helper/index");
 const storage = multer.diskStorage({
   destination: function (request, file, callback) {
-    console.log(file.mimetype);
-    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+    // console.log(file.mimetype);
+    if (
+      file.mimetype === "image/jpeg" ||
+      file.mimetype === "image/png" ||
+      file.mimetype === "video/mp4"
+    ) {
       callback(null, "./uploads/");
     } else {
       return callback(
@@ -12,7 +16,7 @@ const storage = multer.diskStorage({
     }
   },
   filename: function (request, file, callback) {
-    console.log(file);
+    // console.log(file);
     callback(
       null,
       new Date().toISOString().replace(/:/g, "-") + "-" + file.originalname
@@ -22,7 +26,7 @@ const storage = multer.diskStorage({
 
 let upload = multer({
   storage: storage,
-  limits: { fileSize: 1 * 1024 * 1024 },
+  limits: { fileSize: 20 * 1024 * 1024 },
 }).single("image");
 const uploadFilter = (request, response, next) => {
   upload(request, response, function (error) {
