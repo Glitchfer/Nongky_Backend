@@ -10,6 +10,7 @@ const {
   patchUser,
   patchLogout,
   resetPasswordUser,
+  patchLocation,
 } = require("../model/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -368,6 +369,33 @@ module.exports = {
         return helper.response(response, 201, "New Password Added", result);
       }
     } catch (error) {
+      return helper.response(response, 400, "Bad Request", error);
+    }
+  },
+  patchLocation: async (request, response) => {
+    const { location } = request.params;
+    const { user_lat, user_lng, id } = request.body;
+    const setData = {
+      user_lat,
+      user_lng,
+    };
+    const checkId = await getUserById(id);
+    try {
+      if (checkId.length > 0) {
+        const result = await patchUser(setData, id);
+        const result2 = await patchLocation(setData, id);
+        return helper.response(
+          response,
+          201,
+          "location updated",
+          result,
+          result2
+        );
+      } else {
+        return helper.response(response, 404, `User By Id: ${id} Not Found`);
+      }
+    } catch (error) {
+      console.log(error);
       return helper.response(response, 400, "Bad Request", error);
     }
   },

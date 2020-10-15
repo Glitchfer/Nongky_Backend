@@ -10,6 +10,7 @@ const {
   patchLogout,
   activationUser,
   resetPassword,
+  patchLocation,
 } = require("../controller/users");
 const { authorization } = require("../middleware/Auth");
 const {
@@ -30,6 +31,7 @@ router.post("/email", authorization, getUserByEmailRedis, getUserByEmail);
 router.post("/login", loginUser);
 router.post("/register", registerUser);
 router.patch("/", clearDataUserRedis, patchLogout);
+router.patch("/location", authorization, clearDataUserRedis, patchLocation);
 router.patch(
   "/:id",
   authorization,
