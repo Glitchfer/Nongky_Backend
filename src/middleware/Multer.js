@@ -2,7 +2,6 @@ const multer = require("multer");
 const helper = require("../helper/index");
 const storage = multer.diskStorage({
   destination: function (request, file, callback) {
-    // console.log(file.mimetype);
     if (
       file.mimetype === "image/jpeg" ||
       file.mimetype === "image/png" ||
@@ -16,7 +15,6 @@ const storage = multer.diskStorage({
     }
   },
   filename: function (request, file, callback) {
-    // console.log(file);
     callback(
       null,
       new Date().toISOString().replace(/:/g, "-") + "-" + file.originalname

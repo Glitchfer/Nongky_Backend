@@ -44,7 +44,6 @@ module.exports = {
         ) {
           fs.unlink(`./uploads/${image}`, function (err) {
             if (err) throw err;
-            console.log("File deleted!");
           });
           return helper.response(
             response,
@@ -58,7 +57,6 @@ module.exports = {
       } else {
         fs.unlink(`./uploads/${image}`, function (err) {
           if (err) throw err;
-          console.log("File deleted!");
         });
         return helper.response(response, 403, `User By Id: ${id} Not Found`);
       }
@@ -73,7 +71,6 @@ module.exports = {
       if (checkCollection.length > 0) {
         fs.unlink(`./uploads/${checkCollection[0].collection}`, function (err) {
           if (err) throw err;
-          console.log("File img deleted! Yeay");
         });
         const result = await deleteCollection(id);
         return helper.response(response, 201, "Collection Deleted", result);
@@ -85,7 +82,6 @@ module.exports = {
         );
       }
     } catch (error) {
-      console.log(error);
       return helper.response(response, 400, "Bad Request");
     }
   },

@@ -94,7 +94,6 @@ module.exports = {
       }
     } catch (error) {
       return helper.response(response, 400, "Bad Request", error);
-      console.log(error);
     }
   },
   postFriend: async (request, response) => {
@@ -122,7 +121,6 @@ module.exports = {
         );
       } else {
         const checkStatus = await checkInvitationStatus(user_id, friend_id);
-        console.log(checkFriend);
         if (checkStatus.length > 0) {
           return helper.response(
             response,

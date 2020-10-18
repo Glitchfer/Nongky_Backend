@@ -7,21 +7,16 @@ module.exports = {
     if (token) {
       token = token.split(" ")[1];
       jwt.verify(token, "RAHASIA", (error, result) => {
-        console.log(error);
         if (
           (error && error.name === "JsonWebTokenError") ||
           (error && error.name === "TokenExpiredError")
         ) {
-          console.log("Yang ini A");
-          console.log(error.expiredAt);
           return helper.response(response, 400, error.message);
         } else {
           if (result.user_status !== 0) {
-            console.log(result);
             request.token = result;
             next();
           } else {
-            console.log(result);
             return helper.response(
               response,
               400,

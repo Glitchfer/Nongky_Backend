@@ -5,6 +5,11 @@ const {
   patchChatList,
   getChatHistory,
   getChatHistoryLanjutan,
+  getLastChat,
+  patchChatStatus,
+  getUnreadCount,
+  getUnreadChat,
+  getChatById,
 } = require("../model/chat");
 const helper = require("../helper/index");
 module.exports = {
@@ -50,6 +55,21 @@ module.exports = {
       return helper.response(response, 400, "Bad Request", error);
     }
   },
+  getLastChat: async (request, response) => {
+    const { last } = request.params;
+    let { room_id, user_id } = request.body;
+    try {
+      const result = await getLastChat(room_id, user_id);
+      const count = await getUnreadCount(room_id, user_id);
+      if (result.length >= 1) {
+        return helper.response(response, 200, "Get Success", result, count);
+      } else {
+        return helper.response(response, 400, "You dont have any chat yet");
+      }
+    } catch (error) {
+      return helper.response(response, 400, "Bad Request", error);
+    }
+  },
   postChatList: async (request, response) => {
     const { sender_id, friend_id, message } = request.body;
     const chat_id = Math.floor(Math.random() * 10000);
@@ -72,7 +92,6 @@ module.exports = {
       const checkRoom = await getChatHistory(sender_id, friend_id);
 
       if (checkRoom.length < 1) {
-        console.log("anda akan membuat chat room baru!");
         const result = await postChatList(setData);
         const result2 = await postChat(setData2);
         return helper.response(
@@ -91,7 +110,6 @@ module.exports = {
           created: new Date(),
           chat_status: 0,
         };
-        console.log(setData3);
         const result3 = await postChat(setData3);
         return helper.response(
           response,
@@ -158,7 +176,38 @@ module.exports = {
       }
     } catch (error) {
       return helper.response(response, 400, "Bad Request", error);
+    }
+  },
+  getUnread: async (request, response) => {
+    const { unread } = request.params;
+    const { room_id, user_id } = request.body;
+    try {
+      const result = await getUnreadChat(room_id, user_id);
+      if (result.length >= 1) {
+        return helper.response(response, 200, "Get Success", result);
+      } else {
+        return helper.response(response, 400, "You dont have any chat yet");
+      }
+    } catch (error) {
+      return helper.response(response, 400, "Bad Request", error);
+    }
+  },
+  patchStatus: async (request, response) => {
+    const { id } = request.params;
+    const cekChat = await getChatById(id);
+    const setData = {
+      chat_status: 1,
+    };
+    try {
+      if (cekChat.length > 0) {
+        const result = await patchChatStatus(setData, id);
+        return helper.response(response, 201, "Status updated", result);
+      } else {
+        return helper.response(response, 404, `Chat By Id: ${id} Not Found`);
+      }
+    } catch (error) {
       console.log(error);
+      return helper.response(response, 400, "Bad Request", error);
     }
   },
 };

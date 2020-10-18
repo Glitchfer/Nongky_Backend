@@ -16,14 +16,13 @@ io.on("connection", (socket) => {
   console.log("socket.io sudah terhubung..");
 
   socket.on("setRoom", (data) => {
-    // socket.room_id = data.room_id;
     socket.join(data.room_id);
   });
 
-  // socket.on("changeRoom", (data) => {
-  //   socket.leave(socket.room_id);
-  //   socket.join(data.newroom);
-  // });
+  socket.on("changeRoom", (data) => {
+    socket.leave(data[1]);
+    socket.join(data[0]);
+  });
 
   socket.on("privateRoom", (data) => {
     // socket.join(data.room_id);
@@ -32,6 +31,11 @@ io.on("connection", (socket) => {
 
   socket.on("typing", (data) => {
     socket.broadcast.to(data.room).emit("typingMessage", data);
+    socket.join(data.room);
+  });
+  socket.on("typingChange", (data) => {
+    socket.broadcast.to(data.room).emit("typingMessage", data);
+    socket.leave(data.recentRoom);
     socket.join(data.room);
   });
 });

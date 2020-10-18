@@ -30,7 +30,6 @@ module.exports = {
       if (checkId[0].user_image !== "") {
         fs.unlink(`./uploads/${checkId[0].user_image}`, function (err) {
           if (err) throw err;
-          console.log("File img deleted! ready to patch");
         });
         if (checkId.length > 0) {
           const result = await patchProfile(setData, id);

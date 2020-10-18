@@ -6,7 +6,6 @@ module.exports = {
   getUserRedis: (request, response, next) => {
     client.get("userall", (error, result) => {
       if (!error && result != null) {
-        console.log(`Data user tersedia di dalam redis`);
         return helper.response(
           response,
           200,
@@ -14,7 +13,6 @@ module.exports = {
           JSON.parse(result)
         );
       } else {
-        console.log(`Data user belum tersedia di dalam redis`);
         next();
       }
     });
@@ -23,7 +21,6 @@ module.exports = {
     const { id } = request.params;
     client.get(`userbyid:${id}`, (error, result) => {
       if (!error && result != null) {
-        console.log(`Data dengan user id: ${id} tersedia di dalam redis`);
         return helper.response(
           response,
           200,
@@ -31,7 +28,6 @@ module.exports = {
           JSON.parse(result)
         );
       } else {
-        console.log(`Data dengan user id: ${id} belum tersedia di dalam redis`);
         next();
       }
     });
@@ -41,9 +37,6 @@ module.exports = {
     const { user_name } = request.body;
     client.get(`userbyname:${user_name}`, (error, result) => {
       if (!error && result != null) {
-        console.log(
-          `Data dengan user name: ${user_name} tersedia di dalam redis`
-        );
         return helper.response(
           response,
           200,
@@ -51,9 +44,6 @@ module.exports = {
           JSON.parse(result)
         );
       } else {
-        console.log(
-          `Data dengan user name: ${user_name} belum tersedia di dalam redis`
-        );
         next();
       }
     });
@@ -63,9 +53,6 @@ module.exports = {
     const { user_email } = request.body;
     client.get(`userbyemail:${user_email}`, (error, result) => {
       if (!error && result != null) {
-        console.log(
-          `Data dengan user email: ${user_email} tersedia di dalam redis`
-        );
         return helper.response(
           response,
           200,
@@ -73,9 +60,6 @@ module.exports = {
           JSON.parse(result)
         );
       } else {
-        console.log(
-          `Data dengan user email: ${user_email} belum tersedia di dalam redis`
-        );
         next();
       }
     });
@@ -85,9 +69,6 @@ module.exports = {
     const { user_phone } = request.body;
     client.get(`userbyphone:${user_phone}`, (error, result) => {
       if (!error && result != null) {
-        console.log(
-          `Data dengan user phone: ${user_phone} tersedia di dalam redis`
-        );
         return helper.response(
           response,
           200,
@@ -95,9 +76,6 @@ module.exports = {
           JSON.parse(result)
         );
       } else {
-        console.log(
-          `Data dengan user phone: ${user_phone} belum tersedia di dalam redis`
-        );
         next();
       }
     });
@@ -107,15 +85,12 @@ module.exports = {
       if (keys.length > 0) {
         keys.forEach((value) => {
           client.del(value);
-          console.log(`semua data dengan key user terhapus dari redis`);
         });
       }
       next();
     });
     //-------- Untuk mendelete semua data redis sekaligus ------------
     // client.flushall((error, result) => {
-    //   console.log("Data didalam redis terhapus");
-    //   console.log(result);
     // });
     // next();
     // ---------------------------------------------------------------

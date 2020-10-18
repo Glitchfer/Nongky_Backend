@@ -58,7 +58,6 @@ module.exports = {
           };
           const token = jwt.sign(payload, "RAHASIA", { expiresIn: "5h" });
           payload = { ...payload, token };
-          console.log(payload);
 
           const loginInfo = {
             user_id: checkDataUsers[0].user_id,
@@ -111,7 +110,6 @@ module.exports = {
       user_account_status: 0,
       user_created: new Date(),
     };
-    console.log(setData);
     try {
       const checkPassword = bcrypt.compareSync(
         user_password,
@@ -157,7 +155,6 @@ module.exports = {
       }
     } catch (error) {
       return helper.response(response, 400, "Bad Request", error);
-      console.log(error);
     }
   },
   activationUser: async (request, response) => {
@@ -198,8 +195,6 @@ module.exports = {
               user_account_status,
               user_updated: new Date(),
             };
-            console.log(user_password);
-            console.log(setData);
             const result = await patchUser(setData, id);
             return helper.response(response, 201, "User Updated", result);
           } else {
@@ -213,7 +208,6 @@ module.exports = {
       }
     } catch (error) {
       return helper.response(response, 400, "Bad Request", error);
-      console.log(error);
     }
   },
   patchLogout: async (request, response) => {
@@ -225,7 +219,6 @@ module.exports = {
       user_login_status: 0,
     };
     const checkId = await getUserById(user_id);
-    console.log(checkId);
     try {
       if (checkId.length > 0) {
         const result = await patchLogout(setData, activity_id);
@@ -246,7 +239,6 @@ module.exports = {
       }
     } catch (error) {
       return helper.response(response, 400, "Bad Request", error);
-      console.log(error);
     }
   },
   getUser: async (request, response) => {
@@ -395,7 +387,6 @@ module.exports = {
         return helper.response(response, 404, `User By Id: ${id} Not Found`);
       }
     } catch (error) {
-      console.log(error);
       return helper.response(response, 400, "Bad Request", error);
     }
   },

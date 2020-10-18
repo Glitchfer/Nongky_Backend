@@ -1,5 +1,16 @@
 const connection = require("../config/mysql");
 module.exports = {
+  getChatById: (id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT * From chat where table_id = ?`,
+        id,
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error));
+        }
+      );
+    });
+  },
   getChatList: (id) => {
     return new Promise((resolve, reject) => {
       connection.query(
@@ -32,8 +43,40 @@ module.exports = {
       );
     });
   },
+  getLastChat: (room_id, user_id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT chat.table_id, chat.room_id, chat.sender_id, chat.receiver_id, chat.message, chat.chat_status, DATE_FORMAT(chat.created, '%d/%m %H:%i') as created FROM chat JOIN user ON chat.sender_id = user.user_id JOIN user2 ON chat.receiver_id = user2.user_id WHERE chat.room_id = ? && chat.receiver_id = ? ORDER BY chat.table_id DESC`,
+        [room_id, user_id],
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error));
+        }
+      );
+    });
+  },
+  getUnreadChat: (room_id, user_id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT chat.table_id, chat.room_id, chat.sender_id, chat.receiver_id, chat.message, chat.chat_status, DATE_FORMAT(chat.created, '%d/%m %H:%i') as created FROM chat JOIN user ON chat.sender_id = user.user_id JOIN user2 ON chat.receiver_id = user2.user_id WHERE chat.room_id = ? && chat.receiver_id = ? && chat.chat_status = 0 ORDER BY chat.table_id DESC`,
+        [room_id, user_id],
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error));
+        }
+      );
+    });
+  },
+  getUnreadCount: (room_id, user_id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT COUNT(*) as unread_count FROM chat WHERE chat.room_id = ? && chat.receiver_id = ? && chat.chat_status = 0`,
+        [room_id, user_id],
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error));
+        }
+      );
+    });
+  },
   postChatList: (setData) => {
-    console.log(setData);
     return new Promise((resolve, reject) => {
       connection.query(
         "INSERT INTO chat_list SET ?",
@@ -72,6 +115,24 @@ module.exports = {
       connection.query(
         `UPDATE friend SET ? WHERE user_id = ? && friend_id = ?`,
         [setData, sender_id, user_id],
+        (error, result) => {
+          if (!error) {
+            const newResult = {
+              ...setData,
+            };
+            resolve(newResult);
+          } else {
+            reject(new Error(error));
+          }
+        }
+      );
+    });
+  },
+  patchChatStatus: (setData, id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `UPDATE chat SET ? WHERE table_id = ?`,
+        [setData, id],
         (error, result) => {
           if (!error) {
             const newResult = {
