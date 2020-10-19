@@ -146,4 +146,15 @@ module.exports = {
       );
     });
   },
+  getDataAndLastChat: (id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT chat_list.table_id, chat_list.sender_id, chat_list.friend_id,  chat_list.room_id, user.user_id AS friend_contact_id, user.user_email, user.user_name, user.user_phone, user.user_image, user.user_address, user.user_lat, user.user_lng, user.user_bio, user.user_login_status, user.user_full_name, chat.sender_id, chat.receiver_id, chat.message, DATE_FORMAT(chat.created, '%d/%m %H:%i') as created, chat.chat_status, chat.table_id FROM chat_list JOIN user ON IF(chat_list.sender_id = ?, chat_list.friend_id = user.user_id, chat_list.sender_id = user.user_id) JOIN chat ON IF(chat_list.sender_id = ?, chat_list.friend_id = chat.sender_id && chat_list.sender_id = chat.receiver_id, chat_list.sender_id = chat.sender_id && chat_list.friend_id = chat.receiver_id) WHERE (chat_list.sender_id = ?  || chat_list.friend_id = ?) && chat.table_id IN (SELECT MAX(chat.table_id) FROM chat GROUP BY chat.table_id DESC) GROUP BY chat_list.room_id ORDER BY chat_list.sender_id ASC`,
+        [id, id, id, id],
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error));
+        }
+      );
+    });
+  },
 };
