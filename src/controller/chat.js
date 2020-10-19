@@ -11,6 +11,7 @@ const {
   getUnreadChat,
   getChatById,
 } = require("../model/chat");
+const { checkFriendConnection } = require("../model/friend");
 const helper = require("../helper/index");
 module.exports = {
   getChatList: async (request, response) => {
