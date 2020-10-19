@@ -22,6 +22,7 @@ module.exports = {
         return helper.response(response, 400, "You dont have any friends");
       }
     } catch (error) {
+      console.log(error);
       return helper.response(response, 400, "Bad Request", error);
     }
   },
@@ -37,6 +38,7 @@ module.exports = {
         return helper.response(response, 400, "You dont have any invitation");
       }
     } catch (error) {
+      console.log(error);
       return helper.response(response, 400, "Bad Request", error);
     }
   },
@@ -93,6 +95,7 @@ module.exports = {
         }
       }
     } catch (error) {
+      console.log(error);
       return helper.response(response, 400, "Bad Request", error);
     }
   },
@@ -141,6 +144,7 @@ module.exports = {
         }
       }
     } catch (error) {
+      console.log(error);
       return helper.response(response, 400, "Bad Request", error);
     }
   },

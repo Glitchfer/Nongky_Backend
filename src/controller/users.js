@@ -85,6 +85,7 @@ module.exports = {
         return helper.response(response, 400, "Email not registered");
       }
     } catch (error) {
+      console.log(error);
       return helper.response(response, 400, "Bad Request", error);
     }
   },
@@ -154,6 +155,7 @@ module.exports = {
         }
       }
     } catch (error) {
+      console.log(error);
       return helper.response(response, 400, "Bad Request", error);
     }
   },
@@ -207,6 +209,7 @@ module.exports = {
         }
       }
     } catch (error) {
+      console.log(error);
       return helper.response(response, 400, "Bad Request", error);
     }
   },
@@ -238,6 +241,7 @@ module.exports = {
         );
       }
     } catch (error) {
+      console.log(error);
       return helper.response(response, 400, "Bad Request", error);
     }
   },
@@ -247,6 +251,7 @@ module.exports = {
       client.setex("userall", 120, JSON.stringify(result));
       return helper.response(response, 200, "Get Success", result);
     } catch (error) {
+      console.log(error);
       return helper.response(response, 400, "Bad Request", error);
     }
   },
@@ -261,6 +266,7 @@ module.exports = {
         return helper.response(response, 404, `User By Id: ${id} Not Found`);
       }
     } catch (error) {
+      console.log(error);
       return helper.response(response, 400, "Bad Request", error);
     }
   },
@@ -285,6 +291,7 @@ module.exports = {
         );
       }
     } catch (error) {
+      console.log(error);
       return helper.response(response, 400, "Bad Request", error);
     }
   },
@@ -309,6 +316,7 @@ module.exports = {
         );
       }
     } catch (error) {
+      console.log(error);
       return helper.response(response, 400, "Bad Request", error);
     }
   },
@@ -333,6 +341,7 @@ module.exports = {
         );
       }
     } catch (error) {
+      console.log(error);
       return helper.response(response, 400, "Bad Request", error);
     }
   },
@@ -361,6 +370,7 @@ module.exports = {
         return helper.response(response, 201, "New Password Added", result);
       }
     } catch (error) {
+      console.log(error);
       return helper.response(response, 400, "Bad Request", error);
     }
   },
@@ -387,6 +397,7 @@ module.exports = {
         return helper.response(response, 404, `User By Id: ${id} Not Found`);
       }
     } catch (error) {
+      console.log(error);
       return helper.response(response, 400, "Bad Request", error);
     }
   },

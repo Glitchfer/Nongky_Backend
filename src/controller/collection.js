@@ -21,6 +21,7 @@ module.exports = {
         return helper.response(response, 400, "No photos & videos");
       }
     } catch (error) {
+      console.log(error);
       return helper.response(response, 400, "Bad Request", error);
     }
   },
@@ -61,6 +62,7 @@ module.exports = {
         return helper.response(response, 403, `User By Id: ${id} Not Found`);
       }
     } catch (error) {
+      console.log(error);
       return helper.response(response, 400, "Bad Request", error);
     }
   },
@@ -82,6 +84,7 @@ module.exports = {
         );
       }
     } catch (error) {
+      console.log(error);
       return helper.response(response, 400, "Bad Request");
     }
   },
