@@ -65,7 +65,7 @@ module.exports = {
             email: checkDataUsers[0].user_email,
             phone: checkDataUsers[0].user_phone,
             login: new Date(),
-            logout: "0000-00-00 00:00:00",
+            logout: new Date("0000-00-00 00:00:00"),
             token: "00:00:00",
             sisa_token: "00:00:00",
           };
