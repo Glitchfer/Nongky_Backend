@@ -35,7 +35,7 @@ module.exports = {
         //   client.setex("friendinvitation", 120, JSON.stringify(result));
         return helper.response(response, 200, "Get Success", result);
       } else {
-        return helper.response(response, 400, "You dont have any invitation");
+        return helper.response(response, 210, "You dont have any invitation");
       }
     } catch (error) {
       console.log(error);
