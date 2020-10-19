@@ -19,7 +19,8 @@ module.exports = {
     const { id } = request.params;
 
     try {
-      const result = await getChatList(id);
+      const result = await getDataAndLastChat(id);
+      // const result = await getChatList(id);
       if (result.length >= 1) {
         return helper.response(response, 200, "Get Success", result);
       } else {
