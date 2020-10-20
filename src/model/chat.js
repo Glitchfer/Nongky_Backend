@@ -11,6 +11,17 @@ module.exports = {
       );
     });
   },
+  // getChatList: (id) => {
+  //   return new Promise((resolve, reject) => {
+  //     connection.query(
+  //       `SELECT chat_list.table_id, chat_list.sender_id, chat_list.friend_id, chat_list.room_id, user.user_id AS friend_contact_id, user.user_email, user.user_name, user.user_phone, user.user_image, user.user_address, user.user_lat, user.user_lng, user.user_bio, user.user_login_status, user.user_full_name, chat.message, DATE_FORMAT(chat.created, '%d/%m %H:%i') as created, chat.chat_status, chat.tables_id FROM chat_list JOIN user ON chat_list.sender_id = user.user_id JOIN ( SELECT table_id, room_id, message, created, chat_status, max(chat.table_id) as tables_id FROM chat GROUP BY chat.room_id ORDER BY tables_id DESC ) chat ON chat_list.room_id = chat.room_id WHERE chat_list.friend_id = ?`,
+  //       id,
+  //       (error, result) => {
+  //         !error ? resolve(result) : reject(new Error(error));
+  //       }
+  //     );
+  //   });
+  // },
   getChatList: (id) => {
     return new Promise((resolve, reject) => {
       connection.query(
