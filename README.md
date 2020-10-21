@@ -1,6 +1,6 @@
 <h1 align="center">ExpressJS - Nongky RESTfull API</h1>
 
-#A system website app for... [More about Express](https://en.wikipedia.org/wiki/Express.js)
+Nongky is a web-based application that is used to exchange messages in real time with known people. Apart from that, this project is to providing API for Nongky app to run its system. [More about Express](https://en.wikipedia.org/wiki/Express.js)
 
 ## Built With
 
@@ -31,11 +31,11 @@ Open .env file on your favorite code editor, and copy paste this code below :
 
 ```
 DB_HOST=localhost // Database Host
-DB_ROOT=root // Database Root
+DB_USER=root // Database Root
 DB_PASSWORD= // Password set for database is empty
-DB_DATABASE=badag // Database
-DB_PORT=3001 // PORT
-DB_IP=127.0.0.1 // IP
+DB_DATABASE=nongky // Database
+PORT=3001 // PORT
+IP=127.0.0.1 // IP
 ```
 
 ## End Point
@@ -119,8 +119,10 @@ DB_IP=127.0.0.1 // IP
 
 #https://documenter.getpostman.com/view/12208824/TVKHUb9d
 
+## Front-end
+
+[https://github.com/Glitchfer/Nongky_Frontend](https://github.com/Glitchfer/Nongky_Frontend)
+
 ## License
 
 © [Arif Rahman](https://github.com/Glitchfer)
-
-# Nongky_Backend
