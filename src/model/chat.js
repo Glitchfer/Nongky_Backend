@@ -168,4 +168,15 @@ module.exports = {
       );
     });
   },
+  getLastMsg: (room_id, id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT room_id, message, DATE_FORMAT(chat.created, '%d/%m %H:%i') as created, chat_status FROM chat WHERE chat.room_id = ? && chat.receiver_id = ? ORDER BY chat.table_id DESC LIMIT 1`,
+        [room_id, id],
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error));
+        }
+      );
+    });
+  },
 };

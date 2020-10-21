@@ -11,40 +11,15 @@ const {
   getUnreadCount,
   getUnreadChat,
   getChatById,
+  getLastMsg,
 } = require("../model/chat");
 const { checkFriendConnection } = require("../model/friend");
 const helper = require("../helper/index");
 module.exports = {
   getChatList: async (request, response) => {
     const { id } = request.params;
-
     try {
-      // const result = await getDataAndLastChat(id);
       const result = await getChatList(id);
-      // const senderId = result.map(function (e) {
-      //   return e.sender_id;
-      // });
-
-      // const roomId = result.map(function (val) {
-      //   return val.room_id;
-      // });
-      // let newResult = [];
-      // for (let i = 0; i < roomId.length; i++) {
-      //   const room = await getUnreadCount(roomId[i], id);
-      //   const string = JSON.stringify(room);
-      //   const json = JSON.parse(string);
-      //   // newResult = [...newResult, json];
-      //   newResult.push(json);
-      // }
-
-      // for (var j = 0; j < result.length; j++) {
-      //   newResult[j].push(result[j]);
-      // }
-
-      // for (var x = 0; x < senderId.length; x++) {
-      //   newResult[x].push({ sender_id: senderId[x] });
-      // }
-
       if (result.length >= 1) {
         return helper.response(response, 200, "Get Success", result);
       } else {
@@ -59,7 +34,7 @@ module.exports = {
     const { id } = request.params;
 
     try {
-      const result = await getDataAndLastChat(id);
+      const result = await getChatList(id);
       // const result = await getChatList(id);
       const senderId = result.map(function (e) {
         return e.sender_id;
@@ -83,6 +58,11 @@ module.exports = {
 
       for (var x = 0; x < senderId.length; x++) {
         newResult[x].push({ sender_id: senderId[x] });
+      }
+
+      for (var z = 0; z < roomId.length; z++) {
+        const last = await getLastMsg(roomId[z], id);
+        newResult[z].push(last[0]);
       }
 
       if (result.length >= 1) {
