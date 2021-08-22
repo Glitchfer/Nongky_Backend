@@ -3,15 +3,9 @@ const router = require("express").Router();
 // Import controller
 const { patchProfile } = require("../controller/profile");
 const { authorization } = require("../middleware/Auth");
-const { clearDataUserRedis } = require("../middleware/Redis");
+// const { clearDataUserRedis } = require("../middleware/Redis");
 const uploadFilter = require("../middleware/Multer");
 
-router.patch(
-  "/:id",
-  authorization,
-  uploadFilter,
-  clearDataUserRedis,
-  patchProfile
-);
+router.patch("/:id", authorization, uploadFilter, patchProfile);
 
 module.exports = router;

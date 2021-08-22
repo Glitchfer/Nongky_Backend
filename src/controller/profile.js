@@ -7,8 +7,8 @@ const {
   getUserById,
 } = require("../model/user");
 const helper = require("../helper/index");
-const redis = require("redis");
-const client = redis.createClient();
+// const redis = require("redis");
+// const client = redis.createClient();
 let fs = require("fs");
 
 module.exports = {

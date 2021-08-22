@@ -13,31 +13,25 @@ const {
   patchLocation,
 } = require("../controller/users");
 const { authorization } = require("../middleware/Auth");
-const {
-  getUserByIdRedis,
-  getUserRedis,
-  getUserByPhoneRedis,
-  getUserByNameRedis,
-  getUserByEmailRedis,
-  clearDataUserRedis,
-} = require("../middleware/Redis");
+// const {
+//   getUserByIdRedis,
+//   getUserRedis,
+//   getUserByPhoneRedis,
+//   getUserByNameRedis,
+//   getUserByEmailRedis,
+//   clearDataUserRedis,
+// } = require("../middleware/Redis");
 const uploadFilter = require("../middleware/Multer");
 
-router.get("/", authorization, getUserRedis, getUser);
-router.get("/:id", authorization, getUserByIdRedis, getUserById);
-router.post("/phone", authorization, getUserByPhoneRedis, getUserByPhone);
-router.post("/name", authorization, getUserByNameRedis, getUserByName);
-router.post("/email", authorization, getUserByEmailRedis, getUserByEmail);
+router.get("/", authorization, getUser);
+router.get("/:id", authorization, getUserById);
+router.post("/phone", authorization, getUserByPhone);
+router.post("/name", authorization, getUserByName);
+router.post("/email", authorization, getUserByEmail);
 router.post("/login", loginUser);
 router.post("/register", registerUser);
-router.patch("/", clearDataUserRedis, patchLogout);
-router.patch("/location", authorization, clearDataUserRedis, patchLocation);
-router.patch(
-  "/:id",
-  authorization,
-  uploadFilter,
-  clearDataUserRedis,
-  activationUser
-);
+router.patch("/", patchLogout);
+router.patch("/location", authorization, patchLocation);
+router.patch("/:id", authorization, uploadFilter, activationUser);
 router.patch("/password/:email", resetPassword);
 module.exports = router;

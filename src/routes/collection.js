@@ -5,7 +5,7 @@ const {
   deleteCollection,
 } = require("../controller/collection");
 const { authorization } = require("../middleware/Auth");
-const { clearDataUserRedis } = require("../middleware/Redis");
+// const { clearDataUserRedis } = require("../middleware/Redis");
 const uploadFilter = require("../middleware/Multer");
 
 router.get("/:id", authorization, getCollection);
@@ -13,11 +13,11 @@ router.get("/:id", authorization, getCollection);
 router.post(
   "/:id",
   authorization,
-  clearDataUserRedis,
+  // clearDataUserRedis,
   uploadFilter,
   postCollection
 );
 
-router.delete("/:id", authorization, clearDataUserRedis, deleteCollection);
+router.delete("/:id", authorization, deleteCollection);
 
 module.exports = router;

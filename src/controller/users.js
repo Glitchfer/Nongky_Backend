@@ -15,8 +15,8 @@ const {
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const helper = require("../helper/index");
-const redis = require("redis");
-const client = redis.createClient();
+// const redis = require("redis");
+// const client = redis.createClient();
 const fs = require("fs");
 
 module.exports = {
@@ -24,6 +24,7 @@ module.exports = {
     try {
       const { user_email, user_password } = request.body;
       const checkDataUsers = await checkUser(user_email);
+      console.log(checkDataUsers);
       if (checkDataUsers.length >= 1) {
         const checkPassword = bcrypt.compareSync(
           user_password,
@@ -67,6 +68,7 @@ module.exports = {
             login: new Date(),
           };
           const result = await postLogin(loginInfo);
+          console.log(result);
           const setData2 = {
             user_login_status: 1,
           };
@@ -93,7 +95,8 @@ module.exports = {
     const { register } = request.params;
     const { user_name, user_email, user_phone, user_password } = request.body;
     const requirement = (user_password) => {
-      let decimal = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+      let decimal =
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
       if (user_password.match(decimal)) {
         return true;
       } else {
@@ -164,7 +167,8 @@ module.exports = {
       const { id } = request.params;
       const { user_password, user_account_status } = request.body;
       const requirement = (user_password) => {
-        let decimal = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+        let decimal =
+          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
         if (user_password.match(decimal)) {
           return true;
         } else {
@@ -248,7 +252,7 @@ module.exports = {
   getUser: async (request, response) => {
     try {
       const result = await getUser();
-      client.setex("userall", 120, JSON.stringify(result));
+      // client.setex("userall", 120, JSON.stringify(result));
       return helper.response(response, 200, "Get Success", result);
     } catch (error) {
       console.log(error);
@@ -260,7 +264,7 @@ module.exports = {
       const { id } = request.params;
       const result = await getUserById(id);
       if (result.length > 0) {
-        client.setex(`userbyid:${id}`, 120, JSON.stringify(result));
+        // client.setex(`userbyid:${id}`, 120, JSON.stringify(result));
         return helper.response(response, 200, "Get User By Id Success", result);
       } else {
         return helper.response(response, 404, `User By Id: ${id} Not Found`);
@@ -276,7 +280,7 @@ module.exports = {
       const { user_name } = request.body;
       const result = await checkUserName(user_name);
       if (result.length > 0) {
-        client.setex(`userbyname:${user_name}`, 120, JSON.stringify(result));
+        // client.setex(`userbyname:${user_name}`, 120, JSON.stringify(result));
         return helper.response(
           response,
           200,
@@ -301,7 +305,7 @@ module.exports = {
       const { user_email } = request.body;
       const result = await checkUser(user_email);
       if (result.length > 0) {
-        client.setex(`userbyemail:${user_email}`, 120, JSON.stringify(result));
+        // client.setex(`userbyemail:${user_email}`, 120, JSON.stringify(result));
         return helper.response(
           response,
           200,
@@ -326,7 +330,7 @@ module.exports = {
       const { user_phone } = request.body;
       const result = await checkUserPhone(user_phone);
       if (result.length > 0) {
-        client.setex(`userbyphone:${user_phone}`, 120, JSON.stringify(result));
+        // client.setex(`userbyphone:${user_phone}`, 120, JSON.stringify(result));
         return helper.response(
           response,
           200,

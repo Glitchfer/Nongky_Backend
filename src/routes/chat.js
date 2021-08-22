@@ -12,7 +12,7 @@ const {
   // postChat,
 } = require("../controller/chat");
 const { authorization } = require("../middleware/Auth");
-const { clearDataUserRedis } = require("../middleware/Redis");
+// const { clearDataUserRedis } = require("../middleware/Redis");
 
 // router.get("/:id", authorization, getChatList);
 router.get("/:id", authorization, getFullList);
